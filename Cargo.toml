@@ -1,0 +1,7 @@
+[package]
+name = "pulse-simple"
+version = "0.1.0"
+authors = ["Astro <astro@spaceboyz.net>"]
+
+[dependencies.libpulse-sys]
+path = "../libpulse-sys"
