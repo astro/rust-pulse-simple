@@ -11,10 +11,39 @@ pub trait Sampleable {
     fn format() -> pa_sample_format_t;
 }
 
+impl Sampleable for u8 {
+    fn format() -> pa_sample_format_t {
+        PA_SAMPLE_U8
+    }
+}
+
 impl Sampleable for i16 {
     fn format() -> pa_sample_format_t {
-        // TODO: endianess
-        PA_SAMPLE_S16LE
+        if cfg!(target_endian = "little") {
+            PA_SAMPLE_S16LE
+        } else {
+            PA_SAMPLE_S16BE
+        }
+    }
+}
+
+impl Sampleable for f32 {
+    fn format() -> pa_sample_format_t {
+        if cfg!(target_endian = "little") {
+            PA_SAMPLE_FLOAT32LE
+        } else {
+            PA_SAMPLE_FLOAT32BE
+        }
+    }
+}
+
+impl Sampleable for i32 {
+    fn format() -> pa_sample_format_t {
+        if cfg!(target_endian = "little") {
+            PA_SAMPLE_S32LE
+        } else {
+            PA_SAMPLE_S32BE
+        }
     }
 }
 
