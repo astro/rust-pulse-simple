@@ -60,19 +60,27 @@ pub trait ChannelCount {
     }
 }
 
-impl<S> ChannelCount for [S; 1] where S: Sampleable {
-    type S = S;
-    fn count() -> u8 {
-        1
-    }
+macro_rules! define_channel_count {
+    ($n: expr) => (
+        impl<S> ChannelCount for [S; $n] where S: Sampleable {
+            type S = S;
+            fn count() -> u8 {
+                $n
+            }
+        }
+    )
 }
 
-impl<S> ChannelCount for [S; 2] where S: Sampleable {
-    type S = S;
-    fn count() -> u8 {
-        2
-    }
-}
+define_channel_count!(1);
+define_channel_count!(2);
+define_channel_count!(3);
+define_channel_count!(4);
+define_channel_count!(5);
+define_channel_count!(6);
+define_channel_count!(7);
+define_channel_count!(8);
+define_channel_count!(9);
+
 
 struct SimpleClient<C: ChannelCount> {
     simple: *mut pa_simple,
