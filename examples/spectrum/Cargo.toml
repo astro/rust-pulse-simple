@@ -1,0 +1,11 @@
+[package]
+name = "spectrum"
+version = "0.0.0"
+authors = ["Astro <astro@spaceboyz.net>"]
+
+[dependencies.pulse-simple]
+path = "../.."
+
+[dependencies]
+rustfft = "*"
+num = "*"
