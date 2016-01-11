@@ -7,5 +7,4 @@ authors = ["Astro <astro@spaceboyz.net>"]
 path = "../.."
 
 [dependencies]
-rustfft = "*"
-num = "*"
+dft = "*"
