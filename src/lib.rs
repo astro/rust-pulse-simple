@@ -88,6 +88,7 @@ impl<S: Sampleable> Drop for SimpleClient<S> {
     }
 }
 
+
 pub struct Playback<S: Sampleable> {
     client: SimpleClient<S>
 }
@@ -98,7 +99,7 @@ impl<S: Sampleable> Playback<S> {
             client: SimpleClient::new(name, desc, PA_STREAM_PLAYBACK, channel_count, rate)
         }
     }
-    
+
     pub fn write(&self, data: &[S]) {
         let res = unsafe {
             let ptr = transmute(data.as_ptr());
@@ -108,7 +109,51 @@ impl<S: Sampleable> Playback<S> {
     }
 }
 
+#[test]
+fn test_playback() {
+    let p = Playback::new("Test", "Playback", 1, 48000);
+
+    // Generate sound
+    let mut data = Vec::with_capacity(4800);
+    for _ in 0..4800 {
+        data.push(0);
+    }
+
+    // Play
+    p.write(&data[..]);
+}
+
+
+pub struct Record<S: Sampleable> {
+    client: SimpleClient<S>
+}
+
+impl<S: Sampleable> Record<S> {
+    pub fn new(name: &str, desc: &str, channel_count: u8, rate: u32) -> Self {
+        Record {
+            client: SimpleClient::new(name, desc, PA_STREAM_RECORD, channel_count, rate)
+        }
+    }
+
+    pub fn read(&self, data: &mut [S]) {
+        let res = unsafe {
+            let ptr = transmute(data.as_mut_ptr());
+            pa_simple_read(self.client.simple, ptr, data.len() * size_of::<S>(), null_mut())
+        };
+        assert!(res >= 0);
+    }
+}
 
 #[test]
-fn it_works() {
+fn test_record() {
+    let p = Record::new("Test", "Record", 1, 48000);
+
+    // Fill:
+    let mut data = Vec::with_capacity(4800);
+    for _ in 0..4800 {
+        data.push(0);
+    }
+
+    // Play
+    p.read(&mut data[..]);
 }
