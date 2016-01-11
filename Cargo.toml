@@ -5,3 +5,6 @@ authors = ["Astro <astro@spaceboyz.net>"]
 
 [dependencies.libpulse-sys]
 path = "../libpulse-sys"
+
+[dependencies]
+libc = "*"
