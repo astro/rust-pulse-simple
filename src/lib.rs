@@ -150,7 +150,7 @@ fn test_playback() {
     // Generate sound
     let mut data = Vec::with_capacity(4800);
     for _ in 0..4800 {
-        data.push([0]);
+        data.push([0.0, 0.0]);
     }
 
     // Play
@@ -185,7 +185,7 @@ fn test_record() {
     // Fill:
     let mut data = Vec::with_capacity(4800);
     for _ in 0..4800 {
-        data.push([0, 0]);
+        data.push([0]);
     }
 
     // Record

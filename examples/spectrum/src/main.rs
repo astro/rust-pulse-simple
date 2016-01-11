@@ -39,7 +39,7 @@ fn main() {
     let mut max: f32 = 0.0;
     loop {
         p.read(&mut data[..]);
-        let freqs = analyze_channel(&mut plan, &data[..], 1);
+        let freqs = analyze_channel(&mut plan, &data[..], 0);
 
         let mut top_freq = 0.0;
         let mut top_freq_volume = 0.0;
