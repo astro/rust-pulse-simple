@@ -5,6 +5,7 @@ use libpulse_sys::*;
 use std::ptr::{null, null_mut};
 use std::mem::{transmute, size_of};
 use std::marker::PhantomData;
+use std::ffi::CString;
 
 
 pub trait Sampleable {
@@ -59,13 +60,14 @@ impl<S: Sampleable> SimpleClient<S> {
             channels: channel_count,
             rate: rate
         };
-        // TODO: must create CStrings instead of as_ptr
+        let name_c = CString::new(name).unwrap();
+        let desc_c = CString::new(desc).unwrap();
         let s = unsafe {
             pa_simple_new(null(),             // Use the default server.
-                          name.as_ptr() as *const i8,  // Our application's name.
+                          name_c.as_ptr() as *const i8,  // Our application's name.
                           dir,
                           null(),             // Use the default device.
-                          desc.as_ptr() as *const i8,  // Description of our stream.
+                          desc_c.as_ptr() as *const i8,  // Description of our stream.
                           &ss,                // Our sample format.
                           null(),             // Use default channel map
                           null(),             // Use default buffering attributes.
