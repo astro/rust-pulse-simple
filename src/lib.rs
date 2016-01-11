@@ -78,8 +78,12 @@ impl<S: Sampleable> SimpleClient<S> {
             phantom: PhantomData
         }
     }
-    
-    // TODO: Drop
+}
+
+impl<S: Sampleable> Drop for SimpleClient<S> {
+    fn drop(&mut self) {
+        unsafe { pa_simple_free(self.simple) };
+    }
 }
 
 pub struct Playback<S: Sampleable> {
