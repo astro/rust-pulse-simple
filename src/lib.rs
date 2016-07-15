@@ -89,7 +89,7 @@ struct SimpleClient<C: ChannelCount> {
 }
 
 impl<C: ChannelCount> SimpleClient<C> {
-    fn new(name: &str, desc: &str, dir: pa_stream_direction_t, dev: Option<&str>, rate: u32) -> Self {
+    fn new(name: &str, desc: &str, dir: pa_stream_direction_t, device: Option<&str>, rate: u32) -> Self {
         let ss = pa_sample_spec {
             format: C::format(),
             channels: C::count(),
@@ -101,7 +101,7 @@ impl<C: ChannelCount> SimpleClient<C> {
             pa_simple_new(null(),             // Use the default server.
                           name_c.as_ptr() as *const c_char,  // Our application's name.
                           dir,
-                          match dev {
+                          match device {
                               Some(ref d) => d.as_ptr() as *const c_char, // Device name to use
                               None => null() // Use the default device
                           },
@@ -132,9 +132,10 @@ pub struct Playback<C: ChannelCount> {
 }
 
 impl<C: ChannelCount> Playback<C> {
-    pub fn new(name: &str, desc: &str, dev: Option<&str>, rate: u32) -> Self {
+    /// Arguments: name, description, optional device (None uses the default device), and rate
+    pub fn new(name: &str, desc: &str, device: Option<&str>, rate: u32) -> Self {
         Playback {
-            client: SimpleClient::new(name, desc, PA_STREAM_PLAYBACK, dev, rate)
+            client: SimpleClient::new(name, desc, PA_STREAM_PLAYBACK, device, rate)
         }
     }
 
@@ -167,9 +168,10 @@ pub struct Record<C: ChannelCount> {
 }
 
 impl<C: ChannelCount> Record<C> {
-    pub fn new(name: &str, desc: &str, dev: Option<&str>, rate: u32) -> Self {
+    /// Arguments: name, description, optional device (None uses the default device), and rate
+    pub fn new(name: &str, desc: &str, device: Option<&str>, rate: u32) -> Self {
         Record {
-            client: SimpleClient::new(name, desc, PA_STREAM_RECORD, dev, rate)
+            client: SimpleClient::new(name, desc, PA_STREAM_RECORD, device, rate)
         }
     }
 
