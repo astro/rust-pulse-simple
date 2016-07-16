@@ -7,7 +7,7 @@ use std::f64::consts::PI;
 const RATE: u32 = 48000;
 
 fn main() {
-    let p = Playback::new("Example", "Playback", RATE);
+    let p = Playback::new("Example", "Playback", None, RATE);
 
     // Generate 1s of sound
     let mut data = Vec::with_capacity(RATE as usize);
