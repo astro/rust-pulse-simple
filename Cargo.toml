@@ -1,6 +1,6 @@
 [package]
 name = "pulse-simple"
-version = "0.0.0"
+version = "1.0.0"
 authors = ["Astro <astro@spaceboyz.net>"]
 description = "Simple Pulseaudio crate for the Rust language"
 repository = "https://github.com/astro/rust-pulse-simple"
