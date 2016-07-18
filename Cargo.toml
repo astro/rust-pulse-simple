@@ -5,7 +5,6 @@ authors = ["Astro <astro@spaceboyz.net>"]
 description = "Simple Pulseaudio crate for the Rust language"
 repository = "https://github.com/astro/rust-pulse-simple"
 license = "LGPL-3.0"
-license-file = "LICENSE"
 
 [dependencies]
 libpulse-sys = "0.0.0"
