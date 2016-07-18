@@ -26,7 +26,7 @@ const WINDOW: usize = 2048;
 const FREQS_PER_COLUMN: usize = 20;
 
 fn main() {
-    let p = Record::new("Example", "Record", RATE);
+    let p = Record::new("Example", "Record", None, RATE);
     let mut plan = Plan::new(Operation::Forward, WINDOW);
 
     // Fill:
