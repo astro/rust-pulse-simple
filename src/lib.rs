@@ -97,13 +97,33 @@ impl<C: ChannelCount> SimpleClient<C> {
         };
         let name_c = CString::new(name).unwrap();
         let desc_c = CString::new(desc).unwrap();
+        let device_c = device.and_then(|dev| {
+            if dev.contains('\x00') {
+                // already has null byte
+                None
+            } else {
+                // create new CString terminated with null
+                Some(CString::new(dev).unwrap())
+            }
+        });
         let s = unsafe {
             pa_simple_new(null(),             // Use the default server.
                           name_c.as_ptr() as *const c_char,  // Our application's name.
                           dir,
-                          match device {
-                              Some(ref d) => d.as_ptr() as *const c_char, // Device name to use
-                              None => null() // Use the default device
+                          match device_c {
+                              Some(ref dev_c) => {
+                                  // Device name to use (CString)
+                                  dev_c.as_ptr() as *const c_char
+                              }
+                              None => {
+                                  match device {
+                                      Some(ref d) => {
+                                          // Device name to use
+                                          d.as_ptr() as *const c_char
+                                      },
+                                      None => null() // Use the default device
+                                  }
+                              }
                           },
                           desc_c.as_ptr() as *const c_char,  // Description of our stream.
                           &ss,                // Our sample format.
