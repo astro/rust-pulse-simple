@@ -5,7 +5,7 @@ use pulse_simple::Record;
 use dft::{Operation, Plan};
 
 
-fn analyze_channel(plan: &Plan, data: &[[f32; 2]], channel: usize) -> Vec<f32> {
+fn analyze_channel(plan: &Plan<f64>, data: &[[f32; 2]], channel: usize) -> Vec<f32> {
     let mut input = Vec::with_capacity(data.len());
     for x in data {
         input.push(x[channel] as f64);
